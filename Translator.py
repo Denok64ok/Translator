@@ -2,12 +2,24 @@ from tkinter import *
 from tkinter import ttk
 from googletrans import Translator
 
-
-class Language_Translator:
+class Interface_Translator:
     def __init__(self, input_language='en', output_language='fr'):
-        self.translator = Translator()
         self.input_language = input_language
         self.output_language = output_language
+
+    def set_input_language(self, language):
+        raise NotImplementedError()
+
+    def set_output_language(self, language):
+        raise NotImplementedError()
+
+    def translate(self, text):
+        raise NotImplementedError()
+
+class Translator_Googletrans(Interface_Translator):
+    def __init__(self, input_language='en', output_language='fr'):
+        super().__init__(input_language, output_language)
+        self.translator = Translator()
 
     def set_input_language(self, language):
         self.input_language = language
@@ -51,7 +63,7 @@ class GUI_application:
 
         self.output_text["yscrollcommand"] = self.output_scrollbar.set
 
-        self.Trans = Language_Translator()
+        self.Trans = Translator_Googletrans()
 
         self.button = Button(window, text="Перевести", command= self.output_text.insert(0,self.Trans.translate(str(self.input_text.get))),
                              font=("Times New Roman", 14))
