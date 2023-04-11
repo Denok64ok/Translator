@@ -1,6 +1,9 @@
 from tkinter import *
 from tkinter import ttk
+import pyautogui
+import keyboard
 from googletrans import Translator
+
 
 class Interface_Translator:
     def __init__(self, input_language='en', output_language='fr'):
@@ -16,6 +19,7 @@ class Interface_Translator:
     def translate(self, text):
         raise NotImplementedError()
 
+
 class Translator_Googletrans(Interface_Translator):
     def __init__(self, input_language='en', output_language='fr'):
         super().__init__(input_language, output_language)
@@ -30,6 +34,23 @@ class Translator_Googletrans(Interface_Translator):
     def translate(self, text):
         translation = self.translator.translate(text, src=self.input_language, dest=self.output_language)
         return translation.text
+
+
+class Screenshot:
+    def __init__(self, x1=0, y1=0, x2=pyautogui.size()[0], y2=pyautogui.size()[1]):
+        self.x1 = x1
+        self.y1 = y1
+        self.x2 = x2
+        self.y2 = y2
+
+    def cut_area(self, name):
+        keyboard.wait("enter")
+        self.x1, self.y1 = pyautogui.position()
+        keyboard.wait("enter")
+        self.x2, self.y2 = pyautogui.position()
+        screenshot = pyautogui.screenshot(region=(self.x1, self.y1, self.x2 - self.x1, self.y2 - self.y1))
+        screenshot.save(name)
+
 
 class GUI_application:
     def __init__(self, window):
@@ -65,6 +86,7 @@ class GUI_application:
 
         self.Trans = Translator_Googletrans()
 
-        self.button = Button(window, text="Перевести", command= self.output_text.insert(0,self.Trans.translate(str(self.input_text.get))),
+        self.button = Button(window, text="Перевести",
+                             command=self.output_text.insert(0, self.Trans.translate(str(self.input_text.get))),
                              font=("Times New Roman", 14))
         self.button.place(x=300, y=350)
