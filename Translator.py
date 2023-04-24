@@ -5,6 +5,7 @@ import keyboard
 from googletrans import Translator
 import pytesseract
 import cv2
+import speech_recognition as sr
 
 
 class Interface_Translator:
@@ -71,6 +72,27 @@ class Technic_OCR:
         #gray = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)[1]
         custom_config = r'--oem 3 --psm 6'
         return pytesseract.image_to_string(image, config=custom_config, lang=self.language)
+
+class Voice_Recognition:
+    def __init__(self, language='ru-RU'):
+        self.r = sr.Recognizer()
+        self.language = language
+
+    def set_language(self, language):
+        self.language = language
+
+    def voice_text(self):
+        with sr.Microphone() as source:
+            print("Говорите...")
+            audio = self.r.listen(source)
+
+        try:
+            text = self.r.recognize_google(audio, language=self.language)
+            print("Вы сказали: " + text)
+        except sr.UnknownValueError:
+            print("Не удалось распознать речь")
+        except sr.RequestError as e:
+            print("Ошибка сервиса распознавания речи; {0}".format(e))
 
 class GUI_application:
     def __init__(self, window):
