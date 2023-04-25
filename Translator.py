@@ -6,6 +6,7 @@ from googletrans import Translator
 import pytesseract
 import cv2
 import speech_recognition as sr
+import pyttsx3
 
 
 class Interface_Translator:
@@ -54,8 +55,10 @@ class Screenshot:
         screenshot = pyautogui.screenshot(region=(self.x1, self.y1, self.x2 - self.x1, self.y2 - self.y1))
         screenshot.save(name)
 
+
 class Technic_OCR:
     pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
+
     def __init__(self, photo, language='eng'):
         self.photo = photo
         self.language = language
@@ -68,10 +71,11 @@ class Technic_OCR:
 
     def text_search(self):
         image = cv2.imread(self.photo)
-        #gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-        #gray = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)[1]
+        # gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        # gray = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)[1]
         custom_config = r'--oem 3 --psm 6'
         return pytesseract.image_to_string(image, config=custom_config, lang=self.language)
+
 
 class Voice_Recognition:
     def __init__(self, language='ru-RU'):
@@ -93,6 +97,30 @@ class Voice_Recognition:
             print("Не удалось распознать речь")
         except sr.RequestError as e:
             print("Ошибка сервиса распознавания речи; {0}".format(e))
+
+
+class Text_Voiceover:
+    def __init__(self, language='ru',
+                 id="HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Speech\Voices\Tokens\TTS_MS_RU-RU_IRINA_11.0"):
+        self.engine = pyttsx3.init()
+        self.language = language
+        self.id = id
+
+    def set_language(self, language):
+        self.language = language
+
+    def set_id(self, id):
+        self.id = id
+
+    def voice_text(self, text, settings=None):
+        if settings is None:
+            settings = [150, 0.7]
+        self.engine.setProperty('rate', settings[0])
+        self.engine.setProperty('volume', settings[1])
+        self.engine.setProperty('voice', self.id)
+        self.engine.say(text)
+        self.engine.runAndWait()
+
 
 class GUI_application:
     def __init__(self, window):
