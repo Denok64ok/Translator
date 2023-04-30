@@ -122,6 +122,35 @@ class Text_Voiceover:
         self.engine.runAndWait()
 
 
+class File_Reading:
+    def __init__(self, text):
+        self.text = text
+
+    def set_text(self, text):
+        self.text = text
+
+    def Reading(self):
+        with open(self.text, "r") as file:
+            data = file.read()
+        return data
+
+
+class File_writing:
+    def __init__(self, text, content):
+        self.text = text
+        self.content = content
+
+    def set_text(self, text):
+        self.text = text
+
+    def set_content(self, content):
+        self.content = content
+
+    def writing(self):
+        with open(self.text, "r") as file:
+            file.write(self.content)
+
+
 class GUI_application:
     def __init__(self, window):
         self.window = window
