@@ -7,6 +7,7 @@ import pytesseract
 import cv2
 import speech_recognition as sr
 import pyttsx3
+import pyperclip as clipboard
 
 
 class Interface_Translator:
@@ -149,6 +150,22 @@ class File_writing:
     def writing(self):
         with open(self.text, "r") as file:
             file.write(self.content)
+
+
+class Loading_clipboard:
+    def __init__(self, text):
+        self.text = text
+
+    def set_text(self, text):
+        self.text = text
+
+    def copy_text(self):
+        clipboard.copy(self.text)
+
+
+class Upload_clipboard:
+    def paste_text(self):
+        return clipboard.paste()
 
 
 class GUI_application:
