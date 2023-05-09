@@ -1,3 +1,4 @@
+from PIL import ImageGrab
 from PyQt5 import QtCore, QtGui, QtWidgets
 import pyautogui
 import keyboard
@@ -40,20 +41,59 @@ class Translator_Googletrans(Interface_Translator):
         return translation.text
 
 
-class Screenshot:
-    def __init__(self, x1=0, y1=0, x2=pyautogui.size()[0], y2=pyautogui.size()[1]):
-        self.x1 = x1
-        self.y1 = y1
-        self.x2 = x2
-        self.y2 = y2
+class Screenshot(QtWidgets.QMainWindow):
+    closed = QtCore.pyqtSignal()
 
-    def cut_area(self, name):
-        keyboard.wait("enter")
-        self.x1, self.y1 = pyautogui.position()
-        keyboard.wait("enter")
-        self.x2, self.y2 = pyautogui.position()
-        screenshot = pyautogui.screenshot(region=(self.x1, self.y1, self.x2 - self.x1, self.y2 - self.y1))
-        screenshot.save(name)
+    def __init__(self, parent=None):
+        super(Screenshot, self).__init__(parent)
+        self.setAttribute(QtCore.Qt.WA_NoSystemBackground, True)
+        self.setAttribute(QtCore.Qt.WA_TranslucentBackground, True)
+        self.setStyleSheet("background:transparent;")
+        self.setWindowFlags(QtCore.Qt.FramelessWindowHint)
+
+        self.outsideSquareColor = "red"
+        self.squareThickness = 2
+
+        self.start_point = QtCore.QPoint()
+        self.end_point = QtCore.QPoint()
+
+    def mousePressEvent(self, event):
+        self.start_point = event.pos()
+        self.end_point = event.pos()
+        self.update()
+
+    def mouseMoveEvent(self, event):
+        self.end_point = event.pos()
+        self.update()
+
+    def mouseReleaseEvent(self, QMouseEvent):
+        r = QtCore.QRect(self.start_point, self.end_point).normalized()
+        self.hide()
+        img = ImageGrab.grab(bbox=r.getCoords())
+        img.save("Images/snapshot.png")
+        QtWidgets.QApplication.restoreOverrideCursor()
+        self.closed.emit()
+        self.start_point = QtCore.QPoint()
+        self.end_point = QtCore.QPoint()
+
+    def paintEvent(self, event):
+        trans = QtGui.QColor(22, 100, 233)
+        r = QtCore.QRectF(self.start_point, self.end_point).normalized()
+        qp = QtGui.QPainter(self)
+        trans.setAlphaF(0.2)
+        qp.setBrush(trans)
+        outer = QtGui.QPainterPath()
+        outer.addRect(QtCore.QRectF(self.rect()))
+        inner = QtGui.QPainterPath()
+        inner.addRect(r)
+        r_path = outer - inner
+        qp.drawPath(r_path)
+        qp.setPen(
+            QtGui.QPen(QtGui.QColor(self.outsideSquareColor), self.squareThickness)
+        )
+        trans.setAlphaF(0)
+        qp.setBrush(trans)
+        qp.drawRect(r)
 
 
 class Technic_OCR:
