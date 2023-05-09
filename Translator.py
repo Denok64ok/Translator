@@ -1,7 +1,5 @@
 from PIL import ImageGrab
 from PyQt5 import QtCore, QtGui, QtWidgets
-import pyautogui
-import keyboard
 from googletrans import Translator
 import pytesseract
 import cv2
