@@ -1,8 +1,9 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-import sys
-from PIL import ImageGrab
 from PyQt5.QtCore import QDir
 from PyQt5.QtWidgets import QFileDialog
+import icon_rc
+import sys
+from PIL import ImageGrab
 from googletrans import Translator
 import pytesseract
 import cv2
@@ -225,7 +226,7 @@ class Ui_MainWindow(object):
         self.textedit_input.setObjectName("textedit_input")
 
         self.comboBox = QtWidgets.QComboBox(self.frame)
-        self.comboBox.setGeometry(QtCore.QRect(150, 20, 69, 22))
+        self.comboBox.setGeometry(QtCore.QRect(140, 20, 91, 22))
         self.comboBox.setStyleSheet("background-color: rgb(53, 203, 225);\n"
                                     "color: rgb(255, 153, 0);")
         self.comboBox.setObjectName("comboBox")
@@ -233,63 +234,93 @@ class Ui_MainWindow(object):
         self.insert_button = QtWidgets.QPushButton(self.frame)
         self.insert_button.setGeometry(QtCore.QRect(10, 240, 41, 41))
         self.insert_button.setStyleSheet("background-color: rgb(53, 203, 225);\n"
-                                         "color: rgb(255, 153, 0);")
+                                         "background-repeat: no-repeat;\n"
+                                         "background-position: center;\n"
+                                         "background-image: url(:/images/Past.png);")
         self.insert_button.setObjectName("insert_button")
+        self.insert_button.setText("")
         self.insert_button.clicked.connect(self.pasting_text)
 
         self.read_file_button = QtWidgets.QPushButton(self.frame)
         self.read_file_button.setGeometry(QtCore.QRect(10, 180, 41, 41))
         self.read_file_button.setStyleSheet("background-color: rgb(53, 203, 225);\n"
-                                            "color: rgb(255, 153, 0);")
+                                            "background-image: url(:/images/Read.png);\n"
+                                            "background-repeat: no-repeat;\n"
+                                            "background-position: center;")
         self.read_file_button.setObjectName("read_file_button")
+        self.read_file_button.setText("")
         self.read_file_button.clicked.connect(self.reading_file)
 
         self.voice_recording_button = QtWidgets.QPushButton(self.frame)
         self.voice_recording_button.setGeometry(QtCore.QRect(10, 120, 41, 41))
         self.voice_recording_button.setStyleSheet("background-color: rgb(53, 203, 225);\n"
-                                                  "color: rgb(255, 153, 0);")
+                                                  "background-repeat: no-repeat;\n"
+                                                  "background-position: center;\n"
+                                                  "background-image: url(:/images/Micr.png);")
         self.voice_recording_button.setObjectName("voice_recording_button")
+        self.voice_recording_button.setText("")
         self.voice_recording_button.clicked.connect(self.voicing_recogn)
 
         self.scissors_button = QtWidgets.QPushButton(self.frame)
         self.scissors_button.setGeometry(QtCore.QRect(10, 60, 41, 41))
         self.scissors_button.setStyleSheet("background-color: rgb(53, 203, 225);\n"
-                                           "color: rgb(255, 153, 0);")
+                                           "background-repeat: no-repeat;\n"
+                                           "background-position: center;\n"
+                                           "background-image: url(:/images/Cuts.png);")
         self.scissors_button.setObjectName("scissors_button")
+        self.scissors_button.setText("")
         self.scissors_button.clicked.connect(self.scissors)
 
         self.define_language_button = QtWidgets.QPushButton(self.frame)
-        self.define_language_button.setGeometry(QtCore.QRect(70, 20, 61, 21))
+        self.define_language_button.setGeometry(QtCore.QRect(80, 10, 41, 41))
         self.define_language_button.setAutoFillBackground(False)
-        self.define_language_button.setStyleSheet("background-color: rgb(53, 203, 225);")
+        self.define_language_button.setStyleSheet("background-color: rgb(53, 203, 225);\n"
+                                                  "background-repeat: no-repeat;\n"
+                                                  "background-position: center;\n"
+                                                  "background-image: url(:/images/Targ.png);")
         self.define_language_button.setObjectName("define_language_button")
+        self.define_language_button.setText("")
         self.define_language_button.clicked.connect(self.defining_language)
 
         self.voice_input_button = QtWidgets.QPushButton(self.frame)
         self.voice_input_button.setGeometry(QtCore.QRect(80, 310, 41, 41))
         self.voice_input_button.setStyleSheet("background-color: rgb(53, 203, 225);\n"
-                                              "color: rgb(255, 153, 0);")
+                                              "background-image: url(:/images/Spea.png);\n"
+                                              "background-repeat: no-repeat;\n"
+                                              "background-position: center;")
         self.voice_input_button.setObjectName("voice_input_button")
+        self.voice_input_button.setText("")
         self.voice_input_button.clicked.connect(lambda: self.voicing_text("input"))
 
         self.write_file_input_button = QtWidgets.QPushButton(self.frame)
         self.write_file_input_button.setGeometry(QtCore.QRect(140, 310, 41, 41))
         self.write_file_input_button.setStyleSheet("background-color: rgb(53, 203, 225);\n"
-                                                   "color: rgb(255, 153, 0);")
+                                                   "background-repeat: no-repeat;\n"
+                                                   "background-position: center;\n"
+                                                   "background-image: url(:/images/Reco.png);")
         self.write_file_input_button.setObjectName("write_file_input_button")
+        self.write_file_input_button.setText("")
         self.write_file_input_button.clicked.connect(lambda: self.writing_file("input"))
 
         self.copy_input_button = QtWidgets.QPushButton(self.frame)
         self.copy_input_button.setGeometry(QtCore.QRect(200, 310, 41, 41))
         self.copy_input_button.setStyleSheet("background-color: rgb(53, 203, 225);\n"
-                                             "color: rgb(255, 153, 0);")
+                                             "background-image: url(:/images/Copy.png);\n"
+                                             "background-repeat: no-repeat;\n"
+                                             "background-position: center;")
         self.copy_input_button.setObjectName("copy_input_button")
+        self.copy_input_button.setText("")
         self.copy_input_button.clicked.connect(lambda: self.coping_text("input"))
 
         self.change_languages_button = QtWidgets.QPushButton(self.centralwidget)
         self.change_languages_button.setGeometry(QtCore.QRect(300, 30, 41, 41))
-        self.change_languages_button.setStyleSheet("background-color: rgb(53, 203, 225);")
+        self.change_languages_button.setStyleSheet("background-color: rgb(53, 203, 225);\n"
+                                                   "background-repeat: no-repeat;\n"
+                                                   "background-position: center;\n"
+                                                   "background-image: url(:/images/Reve.png);")
         self.change_languages_button.setObjectName("change_languages_button")
+        self.change_languages_button.setText("")
+        self.change_languages_button.clicked.connect(self.changing_language)
 
         self.frame_2 = QtWidgets.QFrame(self.centralwidget)
         self.frame_2.setGeometry(QtCore.QRect(360, 20, 211, 361))
@@ -305,10 +336,11 @@ class Ui_MainWindow(object):
                                            "border-radius: 10px;\n"
                                            "color: rgb(0, 0, 0);")
         self.textedit_output.setObjectName("textedit_output")
+        self.textedit_output.setText("")
         self.textedit_output.setReadOnly(True)
 
         self.comboBox_3 = QtWidgets.QComboBox(self.frame_2)
-        self.comboBox_3.setGeometry(QtCore.QRect(70, 20, 69, 22))
+        self.comboBox_3.setGeometry(QtCore.QRect(60, 20, 91, 22))
         self.comboBox_3.setStyleSheet("background-color: rgb(53, 203, 225);\n"
                                       "color: rgb(255, 153, 0);")
         self.comboBox_3.setObjectName("comboBox_3")
@@ -316,35 +348,50 @@ class Ui_MainWindow(object):
         self.voice_output_button = QtWidgets.QPushButton(self.frame_2)
         self.voice_output_button.setGeometry(QtCore.QRect(30, 310, 41, 41))
         self.voice_output_button.setStyleSheet("background-color: rgb(53, 203, 225);\n"
-                                               "color: rgb(255, 153, 0);")
+                                               "background-image: url(:/images/Spea.png);\n"
+                                               "background-repeat: no-repeat;\n"
+                                               "background-position: center;")
         self.voice_output_button.setObjectName("voice_output_button")
+        self.voice_output_button.setText("")
         self.voice_output_button.clicked.connect(lambda: self.voicing_text("output"))
 
         self.write_file_output_button = QtWidgets.QPushButton(self.frame_2)
         self.write_file_output_button.setGeometry(QtCore.QRect(90, 310, 41, 41))
         self.write_file_output_button.setStyleSheet("background-color: rgb(53, 203, 225);\n"
-                                                    "color: rgb(255, 153, 0);")
+                                                    "background-image: url(:/images/Copy.png);\n"
+                                                    "background-repeat: no-repeat;\n"
+                                                    "background-position: center;")
         self.write_file_output_button.setObjectName("write_file_output_button")
+        self.write_file_output_button.setText("")
         self.write_file_output_button.clicked.connect(lambda: self.writing_file("output"))
 
         self.copy_output_button = QtWidgets.QPushButton(self.frame_2)
         self.copy_output_button.setGeometry(QtCore.QRect(150, 310, 41, 41))
         self.copy_output_button.setStyleSheet("background-color: rgb(53, 203, 225);\n"
-                                              "color: rgb(255, 153, 0);")
+                                              "background-repeat: no-repeat;\n"
+                                              "background-position: center;\n"
+                                              "background-image: url(:/images/Copy.png);")
         self.copy_output_button.setObjectName("copy_output_button")
+        self.copy_output_button.setText("")
         self.copy_output_button.clicked.connect(lambda: self.coping_text("output"))
 
         self.change_texts_button = QtWidgets.QPushButton(self.centralwidget)
         self.change_texts_button.setGeometry(QtCore.QRect(300, 120, 41, 41))
         self.change_texts_button.setStyleSheet("background-color: rgb(53, 203, 225);\n"
-                                               "color: rgb(255, 153, 0);")
+                                               "background-repeat: no-repeat;\n"
+                                               "background-position: center;\n"
+                                               "background-image: url(:/images/Chan.png);")
         self.change_texts_button.setObjectName("change_texts_button")
+        self.change_texts_button.setText("")
         self.change_texts_button.clicked.connect(self.changing_text)
 
         self.translate_button = QtWidgets.QPushButton(self.centralwidget)
         self.translate_button.setGeometry(QtCore.QRect(300, 240, 41, 41))
         self.translate_button.setStyleSheet("background-color: rgb(53, 203, 225);\n"
-                                            "color: rgb(255, 153, 0);")
+                                            "background-repeat: no-repeat;\n"
+                                            "background-position: center;\n"
+                                            "background-image: url(:/images/Trans.png);")
+        self.translate_button.setText("")
         self.translate_button.setObjectName("translate_button")
         self.translate_button.clicked.connect(self.translating)
 
@@ -360,6 +407,11 @@ class Ui_MainWindow(object):
         input_text = self.textedit_input.toPlainText()
         self.textedit_input.setText(self.textedit_output.toPlainText())
         self.textedit_output.setText(input_text)
+
+    def changing_language(self):
+        input_language = self.comboBox.currentIndex()
+        self.comboBox.setCurrentIndex(self.comboBox_3.currentIndex())
+        self.comboBox_3.setCurrentIndex(input_language)
 
     def translating(self):
         translate_text = Translator_Googletrans(self.id_input_language(1), self.id_output_language(1))
@@ -473,24 +525,8 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "Переводчик"))
         self.adding_language()
-        self.insert_button.setText(_translate("MainWindow", "Вставить"))
-        self.read_file_button.setText(_translate("MainWindow", "Прочитать из файла"))
-        self.voice_recording_button.setText(_translate("MainWindow", "голосовая запись"))
-        self.scissors_button.setText(_translate("MainWindow", "ножницы"))
-        self.define_language_button.setText(_translate("MainWindow", "Определить язык"))
-        self.voice_input_button.setText(_translate("MainWindow", "Озвучить"))
-        self.write_file_input_button.setText(_translate("MainWindow", "Записать в файл"))
-        self.copy_input_button.setText(_translate("MainWindow", "Копировать"))
-
-        self.voice_output_button.setText(_translate("MainWindow", "Озвучить"))
-        self.write_file_output_button.setText(_translate("MainWindow", "Записать в файл"))
-        self.copy_output_button.setText(_translate("MainWindow", "Копировать"))
-
-        self.change_languages_button.setText(_translate("MainWindow", "Поменять языки"))
-        self.change_texts_button.setText(_translate("MainWindow", "Поменять текст"))
-        self.translate_button.setText(_translate("MainWindow", "Перевести"))
 
 
 if __name__ == "__main__":
