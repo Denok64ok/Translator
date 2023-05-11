@@ -1,8 +1,9 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import QDir
-from PyQt5.QtWidgets import QFileDialog
+from PyQt5.QtWidgets import QFileDialog, QMessageBox, QApplication
 import icon_rc
 import sys
+from speech_recognition import UnknownValueError
 from PIL import ImageGrab
 from googletrans import Translator
 import pytesseract
@@ -126,13 +127,10 @@ class Voice_Recognition:
         self.language = language
 
     def voice_text(self):
-        try:
-            with sr.Microphone() as source:
-                audio = self.recogn.listen(source)
-            text = self.recogn.recognize_google(audio, language=self.language)
-            return text
-        except:
-            pass
+        with sr.Microphone() as source:
+            audio = self.recogn.listen(source)
+        text = self.recogn.recognize_google(audio, language=self.language)
+        return text
 
 
 class Text_Voiceover:
@@ -358,7 +356,7 @@ class Ui_MainWindow(object):
         self.write_file_output_button = QtWidgets.QPushButton(self.frame_2)
         self.write_file_output_button.setGeometry(QtCore.QRect(90, 310, 41, 41))
         self.write_file_output_button.setStyleSheet("background-color: rgb(53, 203, 225);\n"
-                                                    "background-image: url(:/images/Copy.png);\n"
+                                                    "background-image: url(:/images/Reco.png);\n"
                                                     "background-repeat: no-repeat;\n"
                                                     "background-position: center;")
         self.write_file_output_button.setObjectName("write_file_output_button")
@@ -415,10 +413,7 @@ class Ui_MainWindow(object):
 
     def translating(self):
         translate_text = Translator_Googletrans(self.id_input_language(1), self.id_output_language(1))
-        try:
-            self.textedit_output.setText(translate_text.translate(self.textedit_input.toPlainText()))
-        except:
-            pass
+        self.textedit_output.setText(translate_text.translate(self.textedit_input.toPlainText()))
 
     def reading(self, name):
         languages = []
@@ -484,7 +479,17 @@ class Ui_MainWindow(object):
 
     def voicing_recogn(self):
         voice = Voice_Recognition(self.id_input_language(3))
-        self.textedit_input.setText(voice.voice_text())
+        try:
+            error = QMessageBox()
+            error.setWindowTitle("Внимание")
+            error.setIcon(QMessageBox.Warning)
+            error.setText("Производится запись голоса.\nПожалуйста говорите.")
+            error.show()
+            QApplication.processEvents()
+            self.textedit_input.setText(voice.voice_text())
+            error.close()
+        except UnknownValueError:
+            pass
 
     def selecting_file(self):
         dialog = QFileDialog()
@@ -495,23 +500,32 @@ class Ui_MainWindow(object):
 
     def reading_file(self):
         graphic_formats = ["svg", "pdf", "eps", "ai", "cdr", "png", "jpeg", "gif", "raw", "tiff", "bmp", "psd"]
-        file = self.selecting_file()[0]
-        try:
+        file = self.selecting_file()
+        if file:
+            file = file[0]
             if file.split(".")[-1] in graphic_formats:
-                image = Technic_OCR(file, self.id_input_language(4))
-                self.textedit_input.setText(image.text_search())
+                try:
+                    image = Technic_OCR(file, self.id_input_language(4))
+                    self.textedit_input.setText(image.text_search())
+                except:
+                    error = QMessageBox()
+                    error.setWindowTitle("Произошла ощибка")
+                    error.setIcon(QMessageBox.Warning)
+                    error.setText("Путь до файла графического формата, содержит кириллицу")
+                    error.exec_()
             else:
                 text = File_Reading(file)
                 self.textedit_input.setText(text.reading())
-        except:
-            pass
 
     def writing_file(self, put):
-        if put == "input":
-            file = File_Writing(self.selecting_file()[0], self.textedit_input.toPlainText())
-        elif put == "output":
-            file = File_Writing(self.selecting_file()[0], self.textedit_output.toPlainText())
-        file.writing()
+        file = self.selecting_file()
+        if file:
+            file = file[0]
+            if put == "input":
+                file = File_Writing(file, self.textedit_input.toPlainText())
+            elif put == "output":
+                file = File_Writing(file, self.textedit_output.toPlainText())
+            file.writing()
 
     def scissors(self):
         self.snipper.showFullScreen()
