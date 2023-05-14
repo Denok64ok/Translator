@@ -345,8 +345,11 @@ class Ui_MainWindow(object):
 
     def on_closed(self):
         MainWindow.show()
-        image = Technic_OCR("Images/snapshot.png", self.id_input_language(4))
-        self.textedit_input.setText(image.text_search())
+        try:
+            image = Technic_OCR("Images/snapshot.png", self.id_input_language(4))
+            self.textedit_input.setText(image.text_search())
+        except:
+            pass
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate

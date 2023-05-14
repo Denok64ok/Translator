@@ -1,11 +1,11 @@
-Английский en TTS_MS_RU-RU_IRINA_11.0 en-AU eng
-Китайский zh-cn TTS_MS_RU-RU_IRINA_11.0 zh chi_sim
-Испанский es TTS_MS_RU-RU_IRINA_11.0 es-AR spa
-Французский fr TTS_MS_RU-RU_IRINA_11.0 fr-CA fra
-Бенгальский bn TTS_MS_RU-RU_IRINA_11.0 bn-BD ben
+Английский en TTS_MS_EN-US_ZIRA_11.0 en-AU eng
+Китайский zh-cn TTS_MS_ZH-CN_HUIHUI_11.0 zh chi_sim
+Испанский es TTS_MS_ES-ES_HELENA_11.0 es-AR spa
+Французский fr TTS_MS_FR-FR_HORTENSE_11.0 fr-CA fra
+Бенгальский bn TTS_MS_AR-EG_HODA_11.0 bn-BD ben
 Русский ru TTS_MS_RU-RU_IRINA_11.0 ru-RU rus
-Хинди hi TTS_MS_RU-RU_IRINA_11.0 hi-IN hin
-Немецкий de TTS_MS_RU-RU_IRINA_11.0 de-DE deu
-Японский ja TTS_MS_RU-RU_IRINA_11.0 ja-JP jpn
-Арабский ar TTS_MS_RU-RU_IRINA_11.0 ar-SA ara
+Хинди hi TTS_MS_HI-IN_HEMANT_11.0 hi-IN hin
+Немецкий de TTS_MS_DE-DE_HEDDA_11.0 de-DE deu
+Японский ja TTS_MS_JA-JP_HARUKA_11.0 ja-JP jpn
+Арабский ar TTS_MS_AR-EG_HODA_11.0 ar-SA ara
 

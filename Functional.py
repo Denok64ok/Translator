@@ -54,7 +54,10 @@ class Screenshot(QtWidgets.QMainWindow):
         r = QtCore.QRect(self.start_point, self.end_point).normalized()
         self.hide()
         img = ImageGrab.grab(bbox=r.getCoords())
-        img.save("Images/snapshot.png")
+        try:
+            img.save("Images/snapshot.png")
+        except:
+            pass
         QtWidgets.QApplication.restoreOverrideCursor()
         self.closed.emit()
         self.start_point = QtCore.QPoint()
