@@ -153,7 +153,7 @@ class File_Writing:
         self.file = file
         self.data = data
 
-    def set_text(self, file):
+    def set_file(self, file):
         self.file = file
 
     def set_content(self, data):
