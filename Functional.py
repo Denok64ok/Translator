@@ -11,7 +11,8 @@ import pyperclip as clipboard
 
 class Translator_Googletrans(Interface_Translator):
     def __init__(self, input_language='en', output_language='fr'):
-        super().__init__(input_language, output_language)
+        self.input_language = input_language
+        self.output_language = output_language
         self.translator = Translator()
 
     def set_input_language(self, language):
