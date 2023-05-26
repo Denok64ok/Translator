@@ -52,9 +52,9 @@ class Screenshot(QtWidgets.QMainWindow):
         self.update()
 
     def mouseReleaseEvent(self, QMouseEvent):
-        r = QtCore.QRect(self.start_point, self.end_point).normalized()
+        snapshot_area = QtCore.QRect(self.start_point, self.end_point).normalized()
         self.hide()
-        img = ImageGrab.grab(bbox=r.getCoords())
+        img = ImageGrab.grab(bbox=snapshot_area.getCoords())
         try:
             img.save("Images/snapshot.png")
         except:
@@ -65,22 +65,25 @@ class Screenshot(QtWidgets.QMainWindow):
         self.end_point = QtCore.QPoint()
 
     def paintEvent(self, event):
-        trans = QtGui.QColor(22, 100, 233)
-        r = QtCore.QRectF(self.start_point, self.end_point).normalized()
-        qp = QtGui.QPainter(self)
-        trans.setAlphaF(0.2)
-        qp.setBrush(trans)
+        color_backdrop = [22, 100, 233]
+        backdrop = QtGui.QColor(color_backdrop[0], color_backdrop[1], color_backdrop[2])
+        snapshot_area = QtCore.QRectF(self.start_point, self.end_point).normalized()
+        area_draughtsman = QtGui.QPainter(self)
+        backdrop.setAlphaF(0.2)
+        area_draughtsman.setBrush(backdrop)
         outer = QtGui.QPainterPath()
         outer.addRect(QtCore.QRectF(self.rect()))
         inner = QtGui.QPainterPath()
-        inner.addRect(r)
-        qp.drawPath(outer - inner)
-        qp.setPen(
-            QtGui.QPen(QtGui.QColor("red"), 2)
+        inner.addRect(snapshot_area)
+        area_draughtsman.drawPath(outer - inner)
+        color_box = QtGui.QColor("red")
+        width_box = 2
+        area_draughtsman.setPen(
+            QtGui.QPen(color_box, width_box)
         )
-        trans.setAlphaF(0)
-        qp.setBrush(trans)
-        qp.drawRect(r)
+        backdrop.setAlphaF(0)
+        area_draughtsman.setBrush(backdrop)
+        area_draughtsman.drawRect(snapshot_area)
 
 
 class Technic_OCR:
